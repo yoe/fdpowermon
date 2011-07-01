@@ -1,0 +1,127 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use Gtk2 -init;
+
+my $icon;
+my $theme;
+my $fnormal = 0;
+
+sub checklevels {
+	my @batstates;
+	my $flevel = 0;
+	my $bat;
+	my $state;
+	my $level;
+	my $remaining;
+	my $step;
+	my $acpi_output;
+	my $found = 0;
+	open my $acpi, "acpi -b |";
+	while ($acpi_output = <$acpi>) {
+		chomp $acpi_output;
+		if ($acpi_output =~ /^Battery (\d): ((Dis)?[Cc]harging|Unknown), ((\d)+)%(, ([\d:]*))?/) {
+			$bat = $1;
+			$state = $2;
+			$level = $4;
+			if (defined($6)) {
+				$remaining = $7;
+			}
+			$found = 1;
+			last;
+		}
+	}
+	return if !$found;
+	$flevel = ($flevel*$bat + $level) / ($bat+1);
+	if($state =~ /Discharging/) {
+		$step = $theme->{discharging};
+	} elsif($state =~/Charging/) {
+		$step = $theme->{charging};
+	} else {
+		$step = $theme->{charging};
+	}
+	my $ifile = undef;
+	my $s_item;
+	my $s_item_s;
+	foreach $s_item (@$step) {
+		if ($flevel >= $s_item->{min} && $flevel <= $s_item->{max}) {
+			$ifile = $s_item->{icon};
+			$s_item_s = $s_item;
+			last;
+		}
+	}
+	$s_item = $s_item_s;
+	if(defined($ifile)) {
+		if($s_item->{flash}) {
+			if(defined $s_item->{iconf}) {
+				if($fnormal) {
+					$ifile = $s_item->{iconf};
+				}
+				$fnormal = 1 - $fnormal;
+			}
+		}
+	}
+	$icon->set_tooltip_text($acpi_output);
+	if(defined($ifile)) {
+		$icon->set_from_file($ifile);
+		$icon->set_visible(1);
+	} else {
+		$icon->set_visible(1);
+	}
+	return 1;
+}
+
+sub parse_step($$) {
+	my $defs = shift;
+	my $num = shift;
+	my @sdefs = split /,/,$defs,$num;
+	my $curmin = 0;
+	my @retval;
+	my $curval;
+	
+	foreach my $def (@sdefs) {
+		my @def = split /:/,$def;
+		$curval = {};
+		$curval->{min} = $curmin;
+		$curval->{max} = $def[0];
+		$curval->{icon} = "/usr/share/fdpowermon/" . $def[1];
+		if (defined($def[2])) {
+			$curval->{iconf} = "/usr/share/fdpowermon/" . $def[2];
+		}
+		$curmin = $curval->{max} + 1;
+		push @retval, $curval;
+	}
+	return \@retval;
+}
+
+sub parse_themes {
+	my %themes;
+	my $curtheme;
+	my $curtheme_name;
+	open my $themecfg, "</etc/fdpowermon/theme.cfg";
+	my $line;
+	while($line = <$themecfg>) {
+		chomp $line;
+		if($line=~ /\[([\S]*)\]/) {
+			if(defined($curtheme_name)) {
+				$themes{$curtheme_name} = $curtheme;
+			}
+			$curtheme = {};
+			$curtheme_name = $1;
+		} elsif($line=~ /steps\s*=\s*(\d)/) {
+			$curtheme->{steps} = $1;
+		} elsif($line=~ /discharging\s*=\s*(.*)$/) {
+			$curtheme->{discharging} = parse_step($1, $curtheme->{steps});
+		} elsif($line=~ /charging\s*=\s*(.*)$/) {
+			$curtheme->{charging} = parse_step($1, $curtheme->{steps});
+		}
+	}
+	$theme = $curtheme;
+}
+
+$icon = Gtk2::StatusIcon->new();
+parse_themes;
+checklevels();
+Glib::Timeout->add_seconds(3, \&checklevels);
+Gtk2->main();
