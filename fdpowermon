@@ -46,7 +46,7 @@ sub checklevels {
 	my $s_item_s;
 	foreach $s_item (@$step) {
 		if ($flevel >= $s_item->{min} && $flevel <= $s_item->{max}) {
-			$ifile = $s_item->{icon};
+			$ifile = $theme->{dir} . "/" . $s_item->{icon};
 			$s_item_s = $s_item;
 			last;
 		}
@@ -56,7 +56,7 @@ sub checklevels {
 		if($s_item->{flash}) {
 			if(defined $s_item->{iconf}) {
 				if($fnormal) {
-					$ifile = $s_item->{iconf};
+					$ifile = $theme->{dir} . "/" . $s_item->{iconf};
 				}
 				$fnormal = 1 - $fnormal;
 			}
@@ -79,15 +79,15 @@ sub parse_step($$) {
 	my $curmin = 0;
 	my @retval;
 	my $curval;
-	
+
 	foreach my $def (@sdefs) {
 		my @def = split /:/,$def;
 		$curval = {};
 		$curval->{min} = $curmin;
 		$curval->{max} = $def[0];
-		$curval->{icon} = "/usr/share/fdpowermon/" . $def[1];
+		$curval->{icon} = $def[1];
 		if (defined($def[2])) {
-			$curval->{iconf} = "/usr/share/fdpowermon/" . $def[2];
+			$curval->{iconf} = $def[2];
 		}
 		$curmin = $curval->{max} + 1;
 		push @retval, $curval;
@@ -108,6 +108,7 @@ sub parse_themes {
 				$themes{$curtheme_name} = $curtheme;
 			}
 			$curtheme = {};
+			$curtheme->{dir} = "/usr/share/fdpowermon";
 			$curtheme_name = $1;
 		} elsif($line=~ /steps\s*=\s*(\d)/) {
 			$curtheme->{steps} = $1;
@@ -115,6 +116,8 @@ sub parse_themes {
 			$curtheme->{discharging} = parse_step($1, $curtheme->{steps});
 		} elsif($line=~ /charging\s*=\s*(.*)$/) {
 			$curtheme->{charging} = parse_step($1, $curtheme->{steps});
+		} elsif($line=~ /dir\s*=\s*(.*)$/) {
+			$curtheme->{dir} = $1;
 		}
 	}
 	$theme = $curtheme;

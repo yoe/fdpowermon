@@ -1,3 +1,9 @@
+fdpowermon (1.1) unstable; urgency=low
+
+  * Don't forget about the icons... d'uh
+
+ -- Wouter Verhelst <wouter@debian.org>  Sat, 02 Jul 2011 10:38:58 +0200
+
 fdpowermon (1.0) unstable; urgency=low
 
   * Initial release.
