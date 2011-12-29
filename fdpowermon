@@ -7,6 +7,9 @@ use Gtk2 -init;
 my $icon;
 my $theme;
 my $fnormal = 0;
+my @warnings = (10, 5, 1);
+my $dir = "charging";
+my $lastwarning = 100;
 
 sub checklevels {
 	my @batstates;
@@ -18,6 +21,7 @@ sub checklevels {
 	my $step;
 	my $acpi_output;
 	my $found = 0;
+	my $charging = 1;
 	open my $acpi, "acpi -b |";
 	while ($acpi_output = <$acpi>) {
 		chomp $acpi_output;
@@ -36,8 +40,10 @@ sub checklevels {
 	$flevel = ($flevel*$bat + $level) / ($bat+1);
 	if($state =~ /Discharging/) {
 		$step = $theme->{discharging};
+		$charging = 0;
 	} elsif($state =~/Charging/) {
 		$step = $theme->{charging};
+		$charging = 1;
 	} else {
 		$step = $theme->{charging};
 	}
@@ -68,6 +74,16 @@ sub checklevels {
 		$icon->set_visible(1);
 	} else {
 		$icon->set_visible(1);
+	}
+	if($charging) {
+		$lastwarning = 100;
+	}
+	foreach my $wlevel(@warnings) {
+		next if $charging;
+		next if $wlevel >= $lastwarning;
+		if($flevel <= $wlevel) {
+			warning($flevel);
+		}
 	}
 	return 1;
 }
@@ -121,6 +137,12 @@ sub parse_themes {
 		}
 	}
 	$theme = $curtheme;
+}
+
+sub warning ($) {
+	my $level = shift;
+	my $dialog = Gtk2::MessageDialog->new(undef, undef, 'warning', 'ok', "Warning: battery level low (now at %s%%)", $level);
+	$dialog->run;
 }
 
 $icon = Gtk2::StatusIcon->new();
