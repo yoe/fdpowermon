@@ -1,0 +1,4 @@
+debian/fdpowermon.substvars
+debian/fdpowermon
+debian/fdpowermon.debhelper.log
+debian/files
