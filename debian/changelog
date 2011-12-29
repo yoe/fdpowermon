@@ -1,3 +1,9 @@
+fdpowermon (1.2) UNRELEASED; urgency=low
+
+  * Add Vcs-Browser header to debian/control
+
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 29 Dec 2011 13:47:32 +0100
+
 fdpowermon (1.1) unstable; urgency=low
 
   * Don't forget about the icons... d'uh

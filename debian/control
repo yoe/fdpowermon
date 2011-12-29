@@ -5,6 +5,7 @@ Maintainer: Wouter Verhelst <wouter@debian.org>
 Standards-Version: 3.9.2
 Build-Depends: debhelper (>> 7)
 Vcs-Git: git://git.debian.org/~wouter/fdpowermon.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/wouter/fdpowermon.git
 
 Package: fdpowermon
 Architecture: all
