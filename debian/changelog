@@ -1,9 +1,9 @@
-fdpowermon (1.2) UNRELEASED; urgency=low
+fdpowermon (1.2) unstable; urgency=low
 
   * Add Vcs-Browser header to debian/control
   * Issue appropriate warnings at power levels of 10, 5, and 1%.
 
- -- Wouter Verhelst <wouter@debian.org>  Thu, 29 Dec 2011 13:47:32 +0100
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 29 Dec 2011 14:29:32 +0100
 
 fdpowermon (1.1) unstable; urgency=low
 
