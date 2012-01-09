@@ -1,3 +1,14 @@
+fdpowermon (1.3) unstable; urgency=low
+
+  * Fix warning messages (don't use undef where we need to use a
+    Gtk2::DialogFlags value). Closes: #654836.
+  * Remove stray pcap file
+  * Create a new package fdpowermon-icons, containing the necessary
+    files from the oxygen-icon-theme package, and nothing more. Closes:
+    #653811.
+
+ -- Wouter Verhelst <wouter@debian.org>  Tue, 10 Jan 2012 00:10:47 +0100
+
 fdpowermon (1.2) unstable; urgency=low
 
   * Add Vcs-Browser header to debian/control

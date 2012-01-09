@@ -104,6 +104,7 @@ sub parse_step($$) {
 		$curval->{icon} = $def[1];
 		if (defined($def[2])) {
 			$curval->{iconf} = $def[2];
+			$curval->{flash} = 1;
 		}
 		$curmin = $curval->{max} + 1;
 		push @retval, $curval;
@@ -141,8 +142,9 @@ sub parse_themes {
 
 sub warning ($) {
 	my $level = shift;
-	my $dialog = Gtk2::MessageDialog->new(undef, undef, 'warning', 'ok', "Warning: battery level low (now at %s%%)", $level);
+	my $dialog = Gtk2::MessageDialog->new(undef, 'destroy-with-parent', 'warning', 'ok', "Warning: battery level low (now at %s%%)", $level);
 	$dialog->run;
+	$dialog->destroy;
 }
 
 $icon = Gtk2::StatusIcon->new();
