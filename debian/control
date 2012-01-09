@@ -25,6 +25,7 @@ Description: simple battery power monitor for laptops with ACPI
 Package: fdpowermon-icons
 Architecture: all
 Conflicts: oxygen-icon-theme
+Depends: ${misc:Depends}
 Description: icons for fdpowermon
  fdpowermon is a simple perl script that installs an icon in a system
  tray compatible with the freedesktop.org specification.
