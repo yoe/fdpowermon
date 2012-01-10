@@ -1,3 +1,11 @@
+fdpowermon (1.4) unstable; urgency=low
+
+  * Make sure warning messages don't appear *all* the time (oops).
+  * Update copyright file with oxygen icons' copyright, since we now
+    incorporate them as well
+
+ -- Wouter Verhelst <wouter@debian.org>  Tue, 10 Jan 2012 19:37:24 +0100
+
 fdpowermon (1.3) unstable; urgency=low
 
   * Fix warning messages (don't use undef where we need to use a

@@ -83,6 +83,7 @@ sub checklevels {
 		next if $wlevel >= $lastwarning;
 		if($flevel <= $wlevel) {
 			warning($flevel);
+			$lastwarning=$flevel;
 		}
 	}
 	return 1;
