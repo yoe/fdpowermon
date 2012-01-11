@@ -1,3 +1,11 @@
+fdpowermon (1.5) unstable; urgency=low
+
+  * Always return 1 from checklevels(), also if we don't find any
+    battery line in the acpi output, so that the main loop callback
+    doesn't get stopped. Closes: #653721.
+
+ -- Wouter Verhelst <wouter@debian.org>  Wed, 11 Jan 2012 01:04:29 +0100
+
 fdpowermon (1.4) unstable; urgency=low
 
   * Make sure warning messages don't appear *all* the time (oops).

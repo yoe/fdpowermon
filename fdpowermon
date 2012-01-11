@@ -36,7 +36,7 @@ sub checklevels {
 			last;
 		}
 	}
-	return if !$found;
+	return 1 if !$found;
 	$flevel = ($flevel*$bat + $level) / ($bat+1);
 	if($state =~ /Discharging/) {
 		$step = $theme->{discharging};
