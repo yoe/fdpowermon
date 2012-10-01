@@ -2,6 +2,8 @@ fdpowermon (1.6) UNRELEASED; urgency=low
 
   * Allow more than nine steps; patch from Gregor Herrman. Closes:
     #672280.
+  * Use notifications rather than dialog boxes, so we don't steal the focus
+    accidentally
 
  -- Wouter Verhelst <wouter@debian.org>  Mon, 01 Oct 2012 18:42:46 +0200
 
