@@ -2,6 +2,7 @@ fdpowermon (1.6) UNRELEASED; urgency=low
 
   * Allow more than nine steps; patch from Gregor Herrman. Closes:
     #672280.
+  * Parse "battery full" state correctly. Closes: #669020
   * Use notifications rather than dialog boxes, so we don't steal the focus
     accidentally
 

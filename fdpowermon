@@ -26,7 +26,7 @@ sub checklevels {
 	open my $acpi, "acpi -b |";
 	while ($acpi_output = <$acpi>) {
 		chomp $acpi_output;
-		if ($acpi_output =~ /^Battery (\d): ((Dis)?[Cc]harging|Unknown), ((\d)+)%(, ([\d:]*))?/) {
+		if ($acpi_output =~ /^Battery (\d): ((Dis)?[Cc]harging|Unknown|Full), ((\d)+)%(, ([\d:]*))?/) {
 			$bat = $1;
 			$state = $2;
 			$level = $4;
@@ -43,6 +43,9 @@ sub checklevels {
 		$step = $theme->{discharging};
 		$charging = 0;
 	} elsif($state =~/Charging/) {
+		$step = $theme->{charging};
+		$charging = 1;
+	} elsif($state =~/Full/) {
 		$step = $theme->{charging};
 		$charging = 1;
 	} else {
