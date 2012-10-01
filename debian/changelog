@@ -1,3 +1,10 @@
+fdpowermon (1.6) UNRELEASED; urgency=low
+
+  * Allow more than nine steps; patch from Gregor Herrman. Closes:
+    #672280.
+
+ -- Wouter Verhelst <wouter@debian.org>  Mon, 01 Oct 2012 18:42:46 +0200
+
 fdpowermon (1.5) unstable; urgency=low
 
   * Always return 1 from checklevels(), also if we don't find any

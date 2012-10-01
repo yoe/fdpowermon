@@ -128,7 +128,7 @@ sub parse_themes {
 			$curtheme = {};
 			$curtheme->{dir} = "/usr/share/fdpowermon";
 			$curtheme_name = $1;
-		} elsif($line=~ /steps\s*=\s*(\d)/) {
+		} elsif($line=~ /steps\s*=\s*(\d+)/) {
 			$curtheme->{steps} = $1;
 		} elsif($line=~ /discharging\s*=\s*(.*)$/) {
 			$curtheme->{discharging} = parse_step($1, $curtheme->{steps});
