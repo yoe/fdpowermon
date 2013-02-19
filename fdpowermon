@@ -7,10 +7,166 @@ use Gtk2::Notify -init, "fdpowermon";
 
 my $icon;
 my $theme;
+my %themes;
 my $fnormal = 0;
 my @warnings = (10, 5, 1);
 my $dir = "charging";
 my $lastwarning = 100;
+
+=head1 FDPOWERMON
+
+This program allows one to display a "battery level" icon in any
+freedesktop.org-compliant status area. It can be configured through
+
+=cut
+
+package fdpowermon::theme;
+
+=head2 new
+
+Create a new fdpowermon theme. Returns a blessed reference; e.g.,
+
+my $theme = new fdpowermon::theme;
+=cut
+sub new {
+	my $self = {};
+	bless $self;
+}
+
+=head2 $theme->set_stepcount($count)
+
+Set the number of steps in the theme. Note that an fdpowermon theme must
+have an equal number of steps in both the "charging" and the
+"discharging" direction.
+
+Should be called before calling set_charging, set_discharging, or
+parse_step.
+=cut
+sub set_stepcount($$) {
+	my $self = shift;
+	my $steps = shift;
+	$self->{steps} = $steps;
+}
+
+=head2 $theme->set_dir($dir)
+
+Set the base directory used for icon file names.
+=cut
+sub set_dir($$) {
+	my $self = shift;
+	my $dir = shift;
+	$self->{dir} = $dir;
+}
+
+=head2 $theme->set_charging(\@elements)
+
+Set the icons that should be shown when the battery is charging. The
+argument should be created by way of the parse_step method.
+=cut
+sub set_charging($\@) {
+	my $self = shift;
+	my $charge_steps = shift;
+	if($self->{steps} != scalar(@$charge_steps)) {
+		die "array must have " . $self->{steps} . " elements but has " . scalar(@$charge_steps) . " instead";
+	}
+	$self->{charging} = $charge_steps;
+}
+
+=head2 $theme->set_discharging(\@elements)
+
+Set the icons that should be shown when the battery is discharging. The
+argument should be created by way of the parse_step method.
+=cut
+sub set_discharging($\@) {
+	my $self = shift;
+	my $discharge_steps = shift;
+	if($self->{steps} != scalar(@$discharge_steps)) {
+		die "array must have " . $self->{steps} . " elements but has " . scalar(@$discharge_steps) . " instead";
+	}
+	$self->{discharging} = $discharge_steps;
+}
+
+=head2 $theme->parse_step($defs)
+
+Parses the given string into something that can be passed on to
+set_charging or set_discharging.
+=cut
+sub parse_step($$) {
+	my $self = shift;
+	my $defs = shift;
+	my $num = $self->{steps};
+	my @sdefs = split /,/,$defs,$num;
+	my $curmin = 0;
+	my @retval;
+	my $curval;
+
+	foreach my $def (@sdefs) {
+		my @def = split /:/,$def;
+		$curval = {};
+		$curval->{min} = $curmin;
+		$curval->{max} = $def[0];
+		$curval->{icon} = $def[1];
+		if (defined($def[2])) {
+			$curval->{iconf} = $def[2];
+			$curval->{flash} = 1;
+		}
+		$curmin = $curval->{max} + 1;
+		push @retval, $curval;
+	}
+	return \@retval;
+}
+
+=head2 $theme->set_event($step, \&callback, 'd')
+
+Update the theme so the sub 'callback' is executed when we're discharging
+and we reach $step for the first time. To set an event when charging
+instead, pass a 'c' as the third argument.
+
+Note that the steps are arrays, and are therefore 0-based.
+=cut
+sub set_event($$$$) {
+	my $self = shift;
+	my $step = shift;
+	my $event = shift;
+	my $dir = shift;
+
+	my $stepset;
+	
+	if($dir eq 'c') {
+		$stepset = $self->{charging};
+	} elsif($dir eq 'd') {
+		$stepset = $self->{discharging};
+	} else {
+		die "unknown direction '" . $dir . "' passed to set_event";
+	}
+	$stepset->[$step]->{event} = $event;
+}
+
+=head2 $theme->register($name)
+
+Registers a theme under a given name. If a theme already exists under
+that name, it is replaced.
+
+=cut
+sub register($$) {
+	my $self = shift;
+	my $name = shift;
+
+	$themes{$name} = $self;
+}
+
+=head2 set_default_theme($name)
+
+Makes a theme with a given name be the default theme.
+
+=cut
+sub make_default($) {
+	my $self = shift;
+
+	$theme = $self;
+}
+
+package main;
 
 sub checklevels {
 	my @batstates;
@@ -40,23 +196,23 @@ sub checklevels {
 	return 1 if !$found;
 	$flevel = ($flevel*$bat + $level) / ($bat+1);
 	if($state =~ /Discharging/) {
-		$step = $theme->{discharging};
+		$step = $themes{$theme}->{discharging};
 		$charging = 0;
 	} elsif($state =~/Charging/) {
-		$step = $theme->{charging};
+		$step = $themes{$theme}->{charging};
 		$charging = 1;
 	} elsif($state =~/Full/) {
-		$step = $theme->{charging};
+		$step = $themes{$theme}->{charging};
 		$charging = 1;
 	} else {
-		$step = $theme->{charging};
+		$step = $themes{$theme}->{charging};
 	}
 	my $ifile = undef;
 	my $s_item;
 	my $s_item_s;
 	foreach $s_item (@$step) {
 		if ($flevel >= $s_item->{min} && $flevel <= $s_item->{max}) {
-			$ifile = $theme->{dir} . "/" . $s_item->{icon};
+			$ifile = $themes{$theme}->{dir} . "/" . $s_item->{icon};
 			$s_item_s = $s_item;
 			last;
 		}
@@ -66,11 +222,15 @@ sub checklevels {
 		if($s_item->{flash}) {
 			if(defined $s_item->{iconf}) {
 				if($fnormal) {
-					$ifile = $theme->{dir} . "/" . $s_item->{iconf};
+					$ifile = $themes{$theme}->{dir} . "/" . $s_item->{iconf};
 				}
 				$fnormal = 1 - $fnormal;
 			}
 		}
+	}
+	if(defined($s_item->{event})) {
+		my $sub = $s_item->{event};
+		&$sub($flevel, $charging);
 	}
 	$icon->set_tooltip_text($acpi_output);
 	if(defined($ifile)) {
@@ -93,56 +253,48 @@ sub checklevels {
 	return 1;
 }
 
-sub parse_step($$) {
-	my $defs = shift;
-	my $num = shift;
-	my @sdefs = split /,/,$defs,$num;
-	my $curmin = 0;
-	my @retval;
-	my $curval;
-
-	foreach my $def (@sdefs) {
-		my @def = split /:/,$def;
-		$curval = {};
-		$curval->{min} = $curmin;
-		$curval->{max} = $def[0];
-		$curval->{icon} = $def[1];
-		if (defined($def[2])) {
-			$curval->{iconf} = $def[2];
-			$curval->{flash} = 1;
-		}
-		$curmin = $curval->{max} + 1;
-		push @retval, $curval;
-	}
-	return \@retval;
-}
-
-sub parse_themes {
-	my %themes;
+sub parse_themefile($) {
+	my $themefile = shift;
+	open my $themecfg, "<$themefile";
+	my $line;
 	my $curtheme;
 	my $curtheme_name;
-	open my $themecfg, "</etc/fdpowermon/theme.cfg";
-	my $line;
 	while($line = <$themecfg>) {
 		chomp $line;
 		if($line=~ /\[([\S]*)\]/) {
 			if(defined($curtheme_name)) {
-				$themes{$curtheme_name} = $curtheme;
+				$curtheme->register($curtheme_name);
 			}
-			$curtheme = {};
-			$curtheme->{dir} = "/usr/share/fdpowermon";
+			$curtheme = new fdpowermon::theme;
+			$curtheme->set_dir("/usr/share/fdpowermon");
 			$curtheme_name = $1;
 		} elsif($line=~ /steps\s*=\s*(\d+)/) {
-			$curtheme->{steps} = $1;
+			$curtheme->set_stepcount($1);
 		} elsif($line=~ /discharging\s*=\s*(.*)$/) {
-			$curtheme->{discharging} = parse_step($1, $curtheme->{steps});
+			$curtheme->set_discharging($curtheme->parse_step($1));
 		} elsif($line=~ /charging\s*=\s*(.*)$/) {
-			$curtheme->{charging} = parse_step($1, $curtheme->{steps});
+			$curtheme->set_charging($curtheme->parse_step($1));
 		} elsif($line=~ /dir\s*=\s*(.*)$/) {
-			$curtheme->{dir} = $1;
+			$curtheme->set_dir($1);
 		}
 	}
-	$theme = $curtheme;
+	$curtheme->register($curtheme_name);
+	return $curtheme_name;
+}
+
+sub parse_themes {
+	my $curtheme;
+	fdpowermon::theme::make_default(parse_themefile("/etc/fdpowermon/theme.cfg"));
+	if(-f "/etc/fdpowermon/theme.pl") {
+		require "/etc/fdpowermon/theme.pl";
+	}
+	my $userdir = $ENV{HOME} . "/.config/fdpowermon";
+	if(-f "$userdir/theme.cfg") {
+		fdpowermon::theme::make_default(parse_themefile("$userdir/theme.cfg"));
+	}
+	if(-f "$userdir/theme.pl") {
+		require "$userdir/theme.pl";
+	}
 }
 
 sub warning ($) {

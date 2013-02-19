@@ -1,3 +1,12 @@
+fdpowermon (1.8) UNRELEASED; urgency=low
+
+  * Support per-user themes and scripted themes, with an explicit API in
+    a separate namespace. The scripted theme allows to register coderefs
+    that should be called when we reach a particular battery level,
+    either when charging or when discharging. Closes: #694751.
+
+ -- Wouter Verhelst <wouter@debian.org>  Tue, 19 Feb 2013 21:34:11 +0100
+
 fdpowermon (1.7) unstable; urgency=low
 
   * Add libgtk2-notify-perl to Depends: line, which we use since 1.6.
