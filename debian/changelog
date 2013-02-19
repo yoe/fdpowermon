@@ -1,8 +1,9 @@
-fdpowermon (1.7) UNRELEASED; urgency=low
+fdpowermon (1.7) unstable; urgency=low
 
-  * Add libgtk2-notify-perl to Depends: line, which we use since 1.6...
+  * Add libgtk2-notify-perl to Depends: line, which we use since 1.6.
+    Closes: #696685
 
- -- Wouter Verhelst <wouter@debian.org>  Fri, 21 Dec 2012 03:07:46 +0100
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 27 Dec 2012 10:52:05 +0100
 
 fdpowermon (1.6) unstable; urgency=low
 
