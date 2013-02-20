@@ -4,6 +4,7 @@ fdpowermon (1.8) UNRELEASED; urgency=low
     a separate namespace. The scripted theme allows to register coderefs
     that should be called when we reach a particular battery level,
     either when charging or when discharging. Closes: #694751.
+  * Add a manpage, which describes the file format for theming.
 
  -- Wouter Verhelst <wouter@debian.org>  Tue, 19 Feb 2013 21:34:11 +0100
 

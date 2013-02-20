@@ -13,10 +13,82 @@ my @warnings = (10, 5, 1);
 my $dir = "charging";
 my $lastwarning = 100;
 
-=head1 FDPOWERMON
+=head1 NAME
+
+fdpowermon - add a battery level icon to a freedesktop.org-compliant system tray
+
+=head1 SYNOPSIS
+
+fdpowermon
+
+=head1 DESCRIPTION
 
 This program allows one to display a "battery level" icon in any
-freedesktop.org-compliant status area. It can be configured through
+freedesktop.org-compliant status area. It can be themed through either a
+plain-text configuration file (F</etc/fdpowermon/theme.cfg> or
+F<$HOME/.config/fdpowermon/theme.cfg>), or through a short perl script
+(F</etc/fdpowermon/theme.pl> or F<$HOME/.config/fdpowermon/theme.pl>).
+
+The former is easier, as it doesn't require any scripting; and indeed
+the default configuration is an example of such a plain-text theme.
+However, the latter allows for more flexibility, as one can define
+callbacks that should be run when the battery level reaches a certain
+threshold.
+
+Themes, whether perl themes or plain-text themes, are built through
+'steps', which are defined in a single line. In a plain-text config
+file, such a line looks like this:
+
+ discharging = 2:missing.png:low.png, 10:low.png, 100:full.png
+
+This defines three steps. The highest step shows "full.png" when the
+battery level is between 11% and 100% (inclusive); the second step shows
+"low.png" when the battery level is between 3% and 10% (inclusive); and
+the third step will alternate between "missing.png" and "low.png" on
+three-second intervals, when the battery is between 0% and 2%.
+
+Since the line starts with "discharging", these steps are used when the
+system is running on battery power. A similar line of steps could be
+defined for when the battery is charging:
+
+ charging = 0:empty-charging.png, 10:low-charging.png, 100: full-charging.png
+
+this will show "empty-charging.png" when the battery is at 0% (exactly),
+"low-charging.png" between 1% and 10% (inclusive), and "full-charging.png"
+at 11% and above.
+
+Note that ordering is significant: steps should be defined from low to
+high.
+
+To complete the theme configuration, we must add a few more items:
+
+ [mytheme]
+ steps = 3
+ dir = /home/wouter/.fdpowermon/mytheme-icons
+ charging = 0:empty-charging.png, 10:low-charging.png, 100: full-charging.png
+ discharging = 2:missing.png:low.png, 10:low.png, 100:full.png
+
+This defines a theme called "mytheme" which has three steps, and will
+look for images in the directory
+"/home/wouter/.fdpowermon/mytheme-icons". It is not possible to define a theme
+which has a different number of steps for the charging phase than it does for
+the discharging phase; if you want that, just define (an) extra step(s) for the
+phase that you would like to have less steps, which has the same icon as the
+step above or below.
+
+Note that ordering is significant here, too; the "steps" line should
+appear before any "charging" or "discharging" lines (this was not the
+case in fdpowermon 1.7 or below).
+
+If more than one theme is configured, fdpowermon will, by default, use
+the last theme defined in the per-user configuration, or (if no per-user
+configuration file exists) the last theme defined in the system-wide
+configuration.
+
+Perl theme config files can use fdpowermon::theme::make_default to
+change the default theme.
+
+=head1 PERL API
 
 =cut
 
@@ -28,6 +100,7 @@ Create a new fdpowermon theme. Returns a blessed reference; e.g.,
 
 my $theme = new fdpowermon::theme;
 =cut
+
 sub new {
 	my $self = {};
 	bless $self;
@@ -42,6 +115,7 @@ have an equal number of steps in both the "charging" and the
 Should be called before calling set_charging, set_discharging, or
 parse_step.
 =cut
+
 sub set_stepcount($$) {
 	my $self = shift;
 	my $steps = shift;
@@ -52,6 +126,7 @@ sub set_stepcount($$) {
 
 Set the base directory used for icon file names.
 =cut
+
 sub set_dir($$) {
 	my $self = shift;
 	my $dir = shift;
@@ -63,6 +138,7 @@ sub set_dir($$) {
 Set the icons that should be shown when the battery is charging. The
 argument should be created by way of the parse_step method.
 =cut
+
 sub set_charging($\@) {
 	my $self = shift;
 	my $charge_steps = shift;
@@ -77,6 +153,7 @@ sub set_charging($\@) {
 Set the icons that should be shown when the battery is discharging. The
 argument should be created by way of the parse_step method.
 =cut
+
 sub set_discharging($\@) {
 	my $self = shift;
 	my $discharge_steps = shift;
@@ -89,8 +166,15 @@ sub set_discharging($\@) {
 =head2 $theme->parse_step($defs)
 
 Parses the given string into something that can be passed on to
-set_charging or set_discharging.
+set_charging or set_discharging. The definitions should be in the steps
+format, described above, without the leading C< charging = > or
+C< discharging = >.
+
+While this method returns an arrayref that can be inspected and
+(probably) modified, themes that want to be forward-compatible should
+treat it as an opaque data structure.
 =cut
+
 sub parse_step($$) {
 	my $self = shift;
 	my $defs = shift;
@@ -122,8 +206,18 @@ Update the theme so the sub 'callback' is executed when we're discharging
 and we reach $step for the first time. To set an event when charging
 instead, pass a 'c' as the third argument.
 
-Note that the steps are arrays, and are therefore 0-based.
+Note that the steps are arrays, and are therefore 0-based; the lowest-numbered
+items are the lowest-level steps.
+
+When the event triggers, the callback routine will be passed two
+arguments: the first is the current battery level (in percent); the
+second is a number denoting whether the battery is currently charging
+(1) or discharging (0). In case the parsing of the ACPI command fails,
+however, the second argument may be undef; you should prepare for this
+possibility. Note that fdpowermon itself handles that case by assuming
+the battery is charging; you may or may not wish to do the same.
 =cut
+
 sub set_event($$$$) {
 	my $self = shift;
 	my $step = shift;
@@ -148,6 +242,7 @@ Registers a theme under a given name. If a theme already exists under
 that name, it is replaced.
 
 =cut
+
 sub register($$) {
 	my $self = shift;
 	my $name = shift;
@@ -155,11 +250,12 @@ sub register($$) {
 	$themes{$name} = $self;
 }
 
-=head2 set_default_theme($name)
+=head2 make_default($name)
 
 Makes a theme with a given name be the default theme.
 
 =cut
+
 sub make_default($) {
 	my $self = shift;
 
