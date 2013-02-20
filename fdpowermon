@@ -257,14 +257,29 @@ Makes a theme with a given name be the default theme.
 =cut
 
 sub make_default($) {
-	my $self = shift;
+	my $name = shift;
 
-	$theme = $self;
+	$theme = $name;
+}
+
+=head2 get_theme($name)
+
+Looks up a theme with the given name; e.g.,
+
+ my $theme = fdpowermon::theme::get_theme("default");
+
+=cut
+
+sub get_theme($) {
+	my $name = shift;
+
+	return $themes{$name};
 }
 
 package main;
 
 sub checklevels {
+	my %lastevent;
 	my @batstates;
 	my $flevel = 0;
 	my $bat;
@@ -326,7 +341,11 @@ sub checklevels {
 	}
 	if(defined($s_item->{event})) {
 		my $sub = $s_item->{event};
-		&$sub($flevel, $charging);
+		if (!defined($lastevent{dir}) || $lastevent{dir} != $charging && $lastevent{level} != $s_item->{min}) {
+			&$sub($flevel, $charging);
+			$lastevent{dir} = $charging;
+			$lastevent{level} = $s_item->{min};
+		}
 	}
 	$icon->set_tooltip_text($acpi_output);
 	if(defined($ifile)) {
