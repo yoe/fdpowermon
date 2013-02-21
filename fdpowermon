@@ -352,6 +352,7 @@ sub checklevels {
 		$icon->set_from_file($ifile);
 		$icon->set_visible(1);
 	} else {
+		$icon->set_from_pixbuf(undef);
 		$icon->set_visible(1);
 	}
 	if($charging) {
