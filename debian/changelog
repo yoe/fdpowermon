@@ -1,4 +1,4 @@
-fdpowermon (1.8) UNRELEASED; urgency=low
+fdpowermon (1.8) unstable; urgency=low
 
   * Support per-user themes and scripted themes, with an explicit API in
     a separate namespace. The scripted theme allows to register coderefs
@@ -6,7 +6,7 @@ fdpowermon (1.8) UNRELEASED; urgency=low
     either when charging or when discharging. Closes: #694751.
   * Add a manpage, which describes the file format for theming.
 
- -- Wouter Verhelst <wouter@debian.org>  Tue, 19 Feb 2013 21:34:11 +0100
+ -- Wouter Verhelst <wouter@debian.org>  Wed, 20 Feb 2013 10:19:48 +0100
 
 fdpowermon (1.7) unstable; urgency=low
 
