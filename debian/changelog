@@ -1,3 +1,9 @@
+fdpowermon (1.9) UNRELEASED; urgency=low
+
+  * Add example for perl API.
+
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 07 Mar 2013 09:57:21 +0100
+
 fdpowermon (1.8) unstable; urgency=low
 
   * Support per-user themes and scripted themes, with an explicit API in

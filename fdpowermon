@@ -276,6 +276,39 @@ sub get_theme($) {
 	return $themes{$name};
 }
 
+=head1 EXAMPLES
+
+For a full .cfg theme example, look above.
+
+To construct the same theme fully from perl, you'd do something like this:
+
+ my $theme = new fdpowermon::theme;
+ $theme->set_stepcount(3);
+ $theme->set_dir("/home/wouter/.fdpowermon/mytheme-icons");
+ $theme->set_charging($theme->parse_step("0:empty-charging.png, 10:low-charging.png, 100: full-charging.png"));
+ $theme->set_discharging($theme->parse_step("2:missing.png:low.png, 10:low.png, 100:full.png"));
+
+However, unless you want to build the theme dynamically, doing it this
+way is not recommended. Instead, you would build the theme from a .cfg
+file, and possibly modify it from perl. Let's say you wish to add an
+event to suspend the system when the power gets low; in that case, you'd
+do something like this:
+
+ sub suspend {
+	system("sudo pm-suspend");
+ }
+
+ my $theme = fdpowermon::theme::get_theme("mytheme");
+ $theme->set_event(0, \&suspend, 'd');
+
+This would call the 'suspend' sub when the battery is discharging and we
+reach the lowest step (in the above example, that would be when the
+battery reaches 10%; you might want to do that somewhat later). This
+'suspend' sub simply calls the "pm-suspend" program, with sudo, to
+suspend the system.
+
+=cut
+
 package main;
 
 sub checklevels {
