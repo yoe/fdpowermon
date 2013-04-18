@@ -1,6 +1,14 @@
 fdpowermon (1.9) UNRELEASED; urgency=low
 
   * Add example for perl API.
+  * Move libgtk2-notify-perl to recommends
+  * Introduce $fdpowermon::theme::use_notify which allows one to disable
+    the use of notifications and fall back to dialog boxes (initialized
+    based on whether Gtk2::Notify is installed).
+  * The above two should allow fdpowermon >= 1.6 to run on distributions
+    where Gtk2::Notify isn't packaged, such as Arch Linux, while also
+    allowing allowing other users the added benefit of having the choice
+    of maybe not using libnotify.
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 07 Mar 2013 09:57:21 +0100
 

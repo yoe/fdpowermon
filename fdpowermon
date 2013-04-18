@@ -3,7 +3,6 @@
 use strict;
 use warnings;
 use Gtk2 -init;
-use Gtk2::Notify -init, "fdpowermon";
 
 my $icon;
 my $theme;
@@ -93,6 +92,25 @@ change the default theme.
 =cut
 
 package fdpowermon::theme;
+
+=head2 $use_notify
+
+The variable fdpowermon::theme::use_notify can be used to decide whether
+to use a libnotify message (if set to a nonzero value), or a dialog
+window (if set to a value which evaluates to zero).
+
+The default is to use libnotify if Gtk2::Notify is installed, or a
+dialog box if not. Because dialog boxes can steal the focus and
+therefore wreak havoc with the user's work, using libnotify is strongly
+recommended by the author.
+
+Note that if you set the variable to nonzero explicitly, then the test
+whether or not Gtk2::Notify is installed will be ignored. Make sure it's
+available in that case!
+
+=cut
+
+my $use_notify = eval {use Gtk2::Notify -init, "fdpowermon"; 1; };
 
 =head2 new
 
@@ -276,6 +294,29 @@ sub get_theme($) {
 	return $themes{$name};
 }
 
+=head2 warning($message)
+
+Produce a warning, either using Gtk2::Notify, or using a dialog box:
+
+ fdpowermon::theme::warning("battery level low (now at " . $level . "%)");
+
+See the documentation on $fdpowermon::theme::use_notify above for
+details on which implementation is chosen.
+
+=cut
+
+sub warning ($) {
+	my $message = shift;
+	if($use_notify) {
+		my $notif = Gtk2::Notify->new("battery status", "Warning: " . $message, "");
+		$notif->show;
+	} else {
+		my $dialog = Gtk2::MessageDialog->new(undef, 'destroy-with-parent', 'warning', 'ok', "Warning: " . $message);
+		$dialog->run;
+		$dialog->destroy;
+	}
+}
+
 =head1 EXAMPLES
 
 For a full .cfg theme example, look above.
@@ -395,7 +436,7 @@ sub checklevels {
 		next if $charging;
 		next if $wlevel >= $lastwarning;
 		if($flevel <= $wlevel) {
-			warning($flevel);
+			warning("battery level low (now at " . $flevel . "%)");
 			$lastwarning=$flevel;
 		}
 	}
@@ -444,15 +485,6 @@ sub parse_themes {
 	if(-f "$userdir/theme.pl") {
 		require "$userdir/theme.pl";
 	}
-}
-
-sub warning ($) {
-	my $level = shift;
-	#my $dialog = Gtk2::MessageDialog->new(undef, 'destroy-with-parent', 'warning', 'ok', "Warning: battery level low (now at %s%%)", $level);
-	#$dialog->run;
-	#$dialog->destroy;
-	my $notif = Gtk2::Notify->new("battery status", "Warning: battery level low (now at " . $level . "%)", undef);
-	$notif->show;
 }
 
 $icon = Gtk2::StatusIcon->new();
