@@ -9,6 +9,7 @@ fdpowermon (1.9) UNRELEASED; urgency=low
     where Gtk2::Notify isn't packaged, such as Arch Linux, while also
     allowing allowing other users the added benefit of having the choice
     of maybe not using libnotify.
+  * Fix an error in the manpage
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 07 Mar 2013 09:57:21 +0100
 

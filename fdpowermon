@@ -116,7 +116,7 @@ my $use_notify = eval {use Gtk2::Notify -init, "fdpowermon"; 1; };
 
 Create a new fdpowermon theme. Returns a blessed reference; e.g.,
 
-my $theme = new fdpowermon::theme;
+ my $theme = new fdpowermon::theme;
 =cut
 
 sub new {
