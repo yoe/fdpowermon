@@ -1,3 +1,9 @@
+fdpowermon (1.10) UNRELEASED; urgency=low
+
+  * Switch to 3.0 (native) format.
+
+ -- Wouter Verhelst <wouter@grep.be>  Sat, 25 May 2013 09:09:55 +0200
+
 fdpowermon (1.9) unstable; urgency=low
 
   * Add example for perl API.
