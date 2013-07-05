@@ -1,11 +1,11 @@
-fdpowermon (1.10) UNRELEASED; urgency=low
+fdpowermon (1.10) unstable; urgency=low
 
   * Switch to 3.0 (native) format.
   * Call fdpowermon::theme::warning instead of main::warning, which no
     longer exists since 1.9. Oops. Patch by David Purton; Closes:
     #714975
 
- -- Wouter Verhelst <wouter@grep.be>  Sat, 25 May 2013 09:09:55 +0200
+ -- Wouter Verhelst <wouter@grep.be>  Fri, 05 Jul 2013 20:57:26 +0200
 
 fdpowermon (1.9) unstable; urgency=low
 
