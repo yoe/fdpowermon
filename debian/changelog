@@ -5,7 +5,7 @@ fdpowermon (1.10) unstable; urgency=low
     longer exists since 1.9. Oops. Patch by David Purton; Closes:
     #714975
 
- -- Wouter Verhelst <wouter@grep.be>  Fri, 05 Jul 2013 20:57:26 +0200
+ -- Wouter Verhelst <wouter@debian.org>  Fri, 05 Jul 2013 20:57:26 +0200
 
 fdpowermon (1.9) unstable; urgency=low
 
