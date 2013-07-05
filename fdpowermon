@@ -436,7 +436,7 @@ sub checklevels {
 		next if $charging;
 		next if $wlevel >= $lastwarning;
 		if($flevel <= $wlevel) {
-			warning("battery level low (now at " . $flevel . "%)");
+                	fdpowermon::theme::warning("battery level low (now at " . $flevel . "%)");
 			$lastwarning=$flevel;
 		}
 	}
