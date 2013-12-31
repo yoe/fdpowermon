@@ -1,3 +1,9 @@
+fdpowermon (1.11) UNRELEASED; urgency=medium
+
+  * Update Standards-Version to 3.9.5 (no relevant changes)
+
+ -- Wouter Verhelst <wouter@debian.org>  Tue, 31 Dec 2013 11:16:56 +0100
+
 fdpowermon (1.10) unstable; urgency=low
 
   * Switch to 3.0 (native) format.
