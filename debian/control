@@ -21,7 +21,7 @@ Description: simple battery power monitor for laptops with ACPI
  .
  It has no other 'features' like trying to manage your processor speed
  or display backlight for you, preferring to let other subsystems (or
- none at all) do that for you.
+ none at all) be in charge of that.
 
 Package: fdpowermon-icons
 Architecture: all
@@ -32,7 +32,7 @@ Description: icons for fdpowermon
  tray compatible with the freedesktop.org specification.
  .
  By default, it uses an icon set from the 'oxygen' icon theme. However,
- that icon set is fairly large (several tens of megabytes), which is a
+ that icon theme is fairly large (several tens of megabytes), which is a
  waste if the oxygen-icon-theme package is not installed for other
  reasons. Therefore, this package contains just those icons from the
  oxygen-icon-theme package that are needed by fdpowermon, and nothing
