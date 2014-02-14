@@ -110,7 +110,7 @@ available in that case!
 
 =cut
 
-my $use_notify = eval {use Gtk2::Notify -init, "fdpowermon"; 1; };
+my $use_notify = eval 'use Gtk2::Notify -init, "fdpowermon"; 1; ';
 
 =head2 new
 

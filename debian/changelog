@@ -1,6 +1,8 @@
-fdpowermon (1.11) UNRELEASED; urgency=medium
+fdpowermon (1.11) unstable; urgency=medium
 
   * Update Standards-Version to 3.9.5 (no relevant changes)
+  * Fix use of eval. Using eval to check for the presence of modules
+    requires a string, not a code block. Closes: #738985.
 
  -- Wouter Verhelst <wouter@debian.org>  Tue, 31 Dec 2013 11:16:56 +0100
 
