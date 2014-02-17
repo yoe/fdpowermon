@@ -329,6 +329,9 @@ To construct the same theme fully from perl, you'd do something like this:
  $theme->set_charging($theme->parse_step("0:empty-charging.png, 10:low-charging.png, 100: full-charging.png"));
  $theme->set_discharging($theme->parse_step("2:missing.png:low.png, 10:low.png, 100:full.png"));
 
+(note, as a perl theme, this would go in theme.pl, not theme.cfg; see
+above for possible locations for perl themes)
+
 However, unless you want to build the theme dynamically, doing it this
 way is not recommended. Instead, you would build the theme from a .cfg
 file, and possibly modify it from perl. Let's say you wish to add an
