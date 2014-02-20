@@ -1,16 +1,11 @@
-fdpowermon (1.13) UNRELEASED; urgency=medium
-
-  * Add example theme.pl script to explain its usage. Closes: #738983.
-
- -- Wouter Verhelst <wouter@debian.org>  Thu, 20 Feb 2014 09:37:29 +0100
-
-fdpowermon (1.12) unstable; urgency=medium
+fdpowermon (1.12) UNRELEASED; urgency=medium
 
   * Update description of fdpowermon package: recent versions *do* have
     more features than just showing an icon, even if they're not enabled
     by default.
+  * Add example theme.pl script to explain its usage. Closes: #738983.
 
- -- Wouter Verhelst <wouter@debian.org>  Fri, 14 Feb 2014 18:20:00 +0100
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 20 Feb 2014 09:40:56 +0100
 
 fdpowermon (1.11) unstable; urgency=medium
 
