@@ -1,3 +1,3 @@
-fdpowermon usr/bin
+fdpowermon usr/bin/
 theme.cfg etc/fdpowermon/
 theme.pl usr/share/fdpowermon/examples/
