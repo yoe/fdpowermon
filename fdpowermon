@@ -309,8 +309,17 @@ sub warning ($) {
 	my $message = shift;
 	if($use_notify) {
 		my $notif = Gtk2::Notify->new("battery status", "Warning: " . $message, "");
-		$notif->show;
-	} else {
+		eval {
+			$notif->show;
+		};
+		if ($@ != undef) {
+			# Something went wrong trying to show a notification
+			# message. Fall back to using a dialog box instead.
+			$use_notify = 0;
+			return;
+		};
+	}
+	if(!$use_notify) {
 		my $dialog = Gtk2::MessageDialog->new(undef, 'destroy-with-parent', 'warning', 'ok', "Warning: " . $message);
 		$dialog->run;
 		$dialog->destroy;

@@ -4,6 +4,9 @@ fdpowermon (1.12) UNRELEASED; urgency=medium
     more features than just showing an icon, even if they're not enabled
     by default.
   * Add example theme.pl script to explain its usage. Closes: #738983.
+  * If use libnotify fails because no DBus service is running for the
+    libnotify stuff to show a message, fall back to using dialog boxes,
+    too. Closes bug report not received through BTS.
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 20 Feb 2014 09:40:56 +0100
 
