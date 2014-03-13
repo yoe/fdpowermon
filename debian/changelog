@@ -1,4 +1,4 @@
-fdpowermon (1.12) UNRELEASED; urgency=medium
+fdpowermon (1.12) unstable; urgency=medium
 
   * Update description of fdpowermon package: recent versions *do* have
     more features than just showing an icon, even if they're not enabled
