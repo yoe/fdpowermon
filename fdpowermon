@@ -298,7 +298,7 @@ sub get_theme($) {
 
 Produce a warning, either using Gtk2::Notify, or using a dialog box:
 
- fdpowermon::theme::warning("battery level low (now at " . $level . "%)");
+ fdpowermon::theme::warning($message);
 
 See the documentation on $fdpowermon::theme::use_notify above for
 details on which implementation is chosen.
