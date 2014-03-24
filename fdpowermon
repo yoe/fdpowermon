@@ -94,13 +94,13 @@ package fdpowermon::theme;
 
 =head2 @warnings
 
-This array can be used to specify at which levels fdpowermon should
-issue a standard warning. The default is (10, 5, 1), which means to
-issue a warning at a level of 10%, 5%, and 1%. Note that if the battery
-runs flat at a particularly fast pace, the level may have reduced even
-further than that before the warning is issued; also, fdpowermon will
-issue a warning immediately when power is removed from the machine and
-the power is below the first level.
+The @fdpowermon::theme::warnings array can be used to specify at which levels
+fdpowermon should issue a standard warning. The default is (10, 5, 1), which
+means to issue a warning at a level of 10%, 5%, and 1%. Note that if the
+battery runs flat at a particularly fast pace, the level may have reduced even
+further than that before the warning is issued; also, fdpowermon will issue a
+warning immediately when power is removed from the machine and the power is
+below the first level.
 
 To make fdpowermon always issue a warning when power is removed, set
 this to something like (100, 10, 5, 1). To make fdpowermon issue
