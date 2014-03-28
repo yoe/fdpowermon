@@ -115,7 +115,7 @@ our @warnings = (10, 5, 1);
 
 =head2 $use_notify
 
-The variable fdpowermon::theme::use_notify can be used to decide whether
+The variable $fdpowermon::theme::use_notify can be used to decide whether
 to use a libnotify message (if set to a nonzero value), or a dialog
 window (if set to a value which evaluates to zero).
 
