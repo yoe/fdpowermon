@@ -1,3 +1,13 @@
+fdpowermon (1.13) UNRELEASED; urgency=medium
+
+  * make use_notify an "our" variable, rather than a "my" one, so that
+    it can actually be changed from theme files
+  * move @main::warnings to @fdpowermon::theme::warnings, so the point
+    at which a warning is issued can be changed as well
+  * Minor documentation updates
+
+ -- Wouter Verhelst <wouter@debian.org>  Sun, 30 Mar 2014 16:41:33 +0200
+
 fdpowermon (1.12) unstable; urgency=medium
 
   * Update description of fdpowermon package: recent versions *do* have
