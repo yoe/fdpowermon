@@ -1,3 +1,10 @@
+fdpowermon (1.14) UNRELEASED; urgency=medium
+
+  * Move example config file to /usr/share/doc/fdpowermon, where it belongs
+    (from /usr/share/fdpowermon)
+
+ -- Wouter Verhelst <wouter@debian.org>  Mon, 28 Apr 2014 22:01:58 +0200
+
 fdpowermon (1.13) unstable; urgency=medium
 
   * make use_notify an "our" variable, rather than a "my" one, so that
