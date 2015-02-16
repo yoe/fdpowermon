@@ -226,6 +226,10 @@ sub parse_step($$) {
 		my @def = split /:/,$def;
 		$curval = {};
 		$curval->{min} = $curmin;
+		if(!defined($def[1])) {
+			warning("unparseable entry '$def' in config file: missing colon");
+			next;
+		}
 		$curval->{max} = $def[0];
 		$curval->{icon} = $def[1];
 		if (defined($def[2])) {
@@ -498,6 +502,11 @@ sub parse_themefile($) {
 			$curtheme->set_charging($curtheme->parse_step($1));
 		} elsif($line=~ /dir\s*=\s*(.*)$/) {
 			$curtheme->set_dir($1);
+		} elsif($line=~ /^\s*[#;]/) {
+			# comment in theme file
+			next;
+		} else {
+			fdpowermon::theme::warning("unparseable line in configuration file: $line");
 		}
 	}
 	$curtheme->register($curtheme_name);
