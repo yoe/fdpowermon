@@ -336,7 +336,7 @@ sub warning ($) {
 		eval {
 			$notif->show;
 		};
-		if ($@ != undef) {
+		if (defined($@)) {
 			# Something went wrong trying to show a notification
 			# message. Fall back to using a dialog box instead.
 			$use_notify = 0;
