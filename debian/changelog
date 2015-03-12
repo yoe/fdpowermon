@@ -4,6 +4,7 @@ fdpowermon (1.14) unstable; urgency=medium
     (from /usr/share/fdpowermon)
   * Support multiple batteries properly.
   * debian/control: Fix Vcs-Git: URL format
+  * Update Standards-Version to 3.9.6 (nothing relevant)
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 12 Mar 2015 08:58:31 +0100
 
