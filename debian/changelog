@@ -1,4 +1,4 @@
-fdpowermon (1.14) UNRELEASED; urgency=medium
+fdpowermon (1.14) unstable; urgency=medium
 
   * Move example config file to /usr/share/doc/fdpowermon, where it belongs
     (from /usr/share/fdpowermon)
