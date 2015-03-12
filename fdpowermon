@@ -398,12 +398,14 @@ sub checklevels {
 	my $remaining;
 	my $step;
 	my $acpi_output;
+	my $title_text = "";
 	my $found = 0;
 	my $charging = 1;
 	open my $acpi, "acpi -b |";
 	while ($acpi_output = <$acpi>) {
 		chomp $acpi_output;
 		if ($acpi_output =~ /^Battery (\d): ((Dis)?[Cc]harging|Unknown|Full), ((\d)+)%(, ([\d:]*))?/) {
+			$title_text .= ($found ? "\n" : "") . $acpi_output;
 			$bat = $1;
 			$state = $2;
 			$level = $4;
@@ -411,11 +413,10 @@ sub checklevels {
 				$remaining = $7;
 			}
 			$found = 1;
-			last;
+			$flevel = ($flevel*$bat + $level) / ($bat+1);
 		}
 	}
 	return 1 if !$found;
-	$flevel = ($flevel*$bat + $level) / ($bat+1);
 	if($state =~ /Discharging/) {
 		$step = $themes{$theme}->{discharging};
 		$charging = 0;
@@ -457,7 +458,7 @@ sub checklevels {
 			$lastevent{level} = $s_item->{min};
 		}
 	}
-	$icon->set_tooltip_text($acpi_output);
+	$icon->set_tooltip_text($title_text);
 	if(defined($ifile)) {
 		$icon->set_from_file($ifile);
 		$icon->set_visible(1);
