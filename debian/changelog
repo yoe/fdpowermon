@@ -4,7 +4,7 @@ fdpowermon (1.14) unstable; urgency=medium
     (from /usr/share/fdpowermon)
   * Support multiple batteries properly.
 
- -- Wouter Verhelst <wouter@grep.be>  Thu, 12 Mar 2015 08:58:31 +0100
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 12 Mar 2015 08:58:31 +0100
 
 fdpowermon (1.13) unstable; urgency=medium
 
