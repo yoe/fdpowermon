@@ -236,7 +236,7 @@ sub parse_step($$) {
 			$curval->{iconf} = $def[2];
 			$curval->{flash} = 1;
 		}
-		$curmin = $curval->{max} + 1;
+		$curmin = $curval->{max};
 		push @retval, $curval;
 	}
 	return \@retval;
@@ -436,7 +436,7 @@ sub checklevels {
 	my $s_item;
 	my $s_item_s;
 	foreach $s_item (@$step) {
-		if ($flevel >= $s_item->{min} && $flevel <= $s_item->{max}) {
+		if ($flevel > $s_item->{min} && $flevel <= $s_item->{max}) {
 			$ifile = $themes{$theme}->{dir} . "/" . $s_item->{icon};
 			$s_item_s = $s_item;
 			last;
