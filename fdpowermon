@@ -2,7 +2,7 @@
 
 use strict;
 use warnings;
-use Gtk2 -init;
+use Gtk3 -init;
 
 my $icon;
 my $theme;
@@ -119,18 +119,18 @@ The variable $fdpowermon::theme::use_notify can be used to decide whether
 to use a libnotify message (if set to a nonzero value), or a dialog
 window (if set to a value which evaluates to zero).
 
-The default is to use libnotify if Gtk2::Notify is installed, or a
+The default is to use libnotify if Gtk3::Notify is installed, or a
 dialog box if not. Because dialog boxes can steal the focus and
 therefore wreak havoc with the user's work, using libnotify is strongly
 recommended by the author.
 
 Note that if you set the variable to nonzero explicitly, then the test
-whether or not Gtk2::Notify is installed will be ignored. Make sure it's
+whether or not Gtk3::Notify is installed will be ignored. Make sure it's
 available in that case!
 
 =cut
 
-our $use_notify = eval 'use Gtk2::Notify -init, "fdpowermon"; 1; ';
+our $use_notify = eval 'use Gtk3::Notify -init, "fdpowermon"; 1; ';
 
 =head2 new
 
@@ -320,7 +320,7 @@ sub get_theme($) {
 
 =head2 warning($message)
 
-Produce a warning, either using Gtk2::Notify, or using a dialog box:
+Produce a warning, either using Gtk3::Notify, or using a dialog box:
 
  fdpowermon::theme::warning($message);
 
@@ -332,7 +332,7 @@ details on which implementation is chosen.
 sub warning ($) {
 	my $message = shift;
 	if($use_notify) {
-		my $notif = Gtk2::Notify->new("battery status", "Warning: " . $message, "");
+		my $notif = Gtk3::Notify->new("battery status", "Warning: " . $message, "");
 		eval {
 			$notif->show;
 		};
@@ -344,7 +344,7 @@ sub warning ($) {
 		};
 	}
 	if(!$use_notify) {
-		my $dialog = Gtk2::MessageDialog->new(undef, 'destroy-with-parent', 'warning', 'ok', "Warning: " . $message);
+		my $dialog = Gtk3::MessageDialog->new(undef, 'destroy-with-parent', 'warning', 'ok', "Warning: " . $message);
 		$dialog->run;
 		$dialog->destroy;
 	}
@@ -532,8 +532,8 @@ sub parse_themes {
 	}
 }
 
-$icon = Gtk2::StatusIcon->new();
+$icon = Gtk3::StatusIcon->new();
 parse_themes;
 checklevels();
 Glib::Timeout->add_seconds(3, \&checklevels);
-Gtk2->main();
+Gtk3->main();

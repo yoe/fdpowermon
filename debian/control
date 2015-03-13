@@ -9,8 +9,8 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=users/wouter/fdpowermon.git
 
 Package: fdpowermon
 Architecture: all
-Depends: libgtk2-perl, acpi, ${misc:Depends}, ${perl:Depends}, fdpowermon-icons|oxygen-icon-theme
-Recommends: libgtk2-notify-perl
+Depends: libgtk3-perl, acpi, ${misc:Depends}, ${perl:Depends}, fdpowermon-icons|oxygen-icon-theme
+Recommends: gir1.2-notify-0.7
 Description: simple battery power monitor for laptops with ACPI
  fdpowermon is a simple perl script that installs an icon in a system
  tray compatible with the freedesktop.org specification.
