@@ -418,7 +418,7 @@ sub checklevels {
 	}
 	return 1 if !$found;
 	if($bat > 0) {
-		$title_text .= "\nCompound: $flevel%";
+		$title_text .= "\nCombined: $flevel%";
 	}
 	if($state =~ /Discharging/) {
 		$step = $themes{$theme}->{discharging};
