@@ -4,17 +4,17 @@ fdpowermon
 Shows an icon in the system tray for battery state.
 
 Features:
-- minimalist. The code consists of 500 lines, most of which are
-  documentation and comments
+- minimalist. The code consists of a good 500 lines, most of which are
+  documentation and comments.
 - A power _monitor_, not a power manager.
 - The ability (not enabled by default) to suspend a laptop on low power
-  levels, or do other tasks when the battery reaches a particular level
+  levels, or do other tasks when the battery reaches a particular level.
 
-Written in perl, fdpowermon requires the Gtk2 and (optionally)
-Gtk2::Notify perl modules. It uses the "acpi" program, called every
-three seconds, to read power levels.
+Written in perl, fdpowermon requires the Gtk3 perl module and
+(optionally) libnotify GObject introspection data. It uses the `acpi`
+program, called every three seconds, to read power levels.
 
-If Gtk2::Notify is not available, or the necessary infrastructure is not
+If libnotify is not available, or the necessary infrastructure is not
 set up by the window manager, fdpowermon will fall back to using a
 dialog box. It is also possible to explicitly disable the use of
 notifications.
@@ -31,4 +31,4 @@ To install, do the following:
      - Add fdpowermon to your X11 session
      - Profit!
 
-Bugs are welcome through the Debian BTS, "fdpowermon" package
+Bug reports are welcome through the Debian BTS, "fdpowermon" package
