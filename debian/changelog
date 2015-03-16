@@ -1,3 +1,12 @@
+fdpowermon (1.15) UNRELEASED; urgency=medium
+
+  * Fix off-by-one in level parsing code
+  * Fix language: "Compound" is an awkward replacement for combined
+    battery percentage. Use "Combined" instead.
+  * Switch to gtk+3
+
+ -- Wouter Verhelst <wouter@debian.org>  Fri, 13 Mar 2015 18:37:33 +0100
+
 fdpowermon (1.14) unstable; urgency=medium
 
   * Move example config file to /usr/share/doc/fdpowermon, where it belongs
