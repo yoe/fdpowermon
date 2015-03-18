@@ -1,3 +1,10 @@
+fdpowermon (1.16) UNRELEASED; urgency=medium
+
+  * Follow the XDG spec a bit better: use XDG_CONFIG_HOME if specified
+    (still fall back to $HOME/.config if not, though).
+
+ -- Wouter Verhelst <wouter@debian.org>  Wed, 18 Mar 2015 09:44:35 +0100
+
 fdpowermon (1.15) unstable; urgency=medium
 
   * Fix off-by-one in level parsing code

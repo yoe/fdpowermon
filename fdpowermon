@@ -25,8 +25,9 @@ fdpowermon
 This program allows one to display a "battery level" icon in any
 freedesktop.org-compliant status area. It can be themed through either a
 plain-text configuration file (F</etc/fdpowermon/theme.cfg> or
-F<$HOME/.config/fdpowermon/theme.cfg>), or through a short perl script
-(F</etc/fdpowermon/theme.pl> or F<$HOME/.config/fdpowermon/theme.pl>).
+F<$XDG_CONFIG_DIR/fdpowermon/theme.cfg>), or through a short perl script
+(F</etc/fdpowermon/theme.pl> or F<$XDG_CONFIG_DIR/fdpowermon/theme.pl>).
+If $XDG_CONFIG_DIR is not set, $HOME/.config is used as a default.
 
 The former is easier, as it doesn't require any scripting; and indeed
 the default configuration is an example of such a plain-text theme.
@@ -537,7 +538,14 @@ sub parse_themes {
 	if(-f "/etc/fdpowermon/theme.pl") {
 		require "/etc/fdpowermon/theme.pl";
 	}
-	my $userdir = $ENV{HOME} . "/.config/fdpowermon";
+	my $userdir;
+	if(exists($ENV{XDG_CONFIG_DIR})) {
+		$userdir = $ENV{XDG_CONFIG_DIR} . "/fdpowermon";
+	} elsif(exists($ENV{HOME})) {
+		$userdir = $ENV{HOME} . "/.config/fdpowermon";
+	} else {
+		die 'Need $HOME or $XDG_CONFIG_DIR to be set!';
+	}
 	if(-f "$userdir/theme.cfg") {
 		fdpowermon::theme::make_default(parse_themefile("$userdir/theme.cfg"));
 	}
