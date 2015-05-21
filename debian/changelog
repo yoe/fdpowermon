@@ -1,7 +1,9 @@
-fdpowermon (1.16) UNRELEASED; urgency=medium
+fdpowermon (1.16) unstable; urgency=medium
 
   * Follow the XDG spec a bit better: use XDG_CONFIG_HOME if specified
     (still fall back to $HOME/.config if not, though).
+  * Fix exception check in fdpowermon::theme::warning, so that we don't
+    fall back to using dialogs after the first warning. Closes: #786370.
 
  -- Wouter Verhelst <wouter@debian.org>  Wed, 18 Mar 2015 09:44:35 +0100
 
