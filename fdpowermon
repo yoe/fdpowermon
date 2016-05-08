@@ -245,7 +245,7 @@ sub parse_step($$) {
 			warning("unparseable entry '$def' in config file: missing colon");
 			next;
 		}
-		$curval->{max} = $def[0];
+		$curval->{max} = $def[0] + 0;
 		$curval->{icon} = $def[1];
 		if (defined($def[2])) {
 			$curval->{iconf} = $def[2];
