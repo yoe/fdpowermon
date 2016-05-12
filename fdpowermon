@@ -482,7 +482,7 @@ sub checklevels {
 		$icon->set_visible(1);
 	} else {
 		$icon->set_from_stock("gtk-discard");
-		$icon->set_visible(1);
+		$icon->set_visible(0);
 	}
 	if($charging) {
 		$lastwarning = 100;
