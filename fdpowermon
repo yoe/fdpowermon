@@ -416,7 +416,9 @@ sub checklevels {
 	my $title_text = "";
 	my $found = 0;
 	my $charging = 1;
-	open my $acpi, "acpi -b |";
+	my $mah_cur = 0;
+	my $mah_max = 0;
+	open my $acpi, "acpi -bi |";
 	while ($acpi_output = <$acpi>) {
 		chomp $acpi_output;
 		if ($acpi_output =~ /^Battery (\d): ((Dis)?[Cc]harging|Unknown|Full), ((\d)+)%(, ([\d:]*))?/) {
@@ -428,7 +430,13 @@ sub checklevels {
 				$remaining = $7;
 			}
 			$found = 1;
-			$flevel = ($flevel*$bat + $level) / ($bat+1);
+		}
+		if ($acpi_output =~ /^Battery (\d): design capacity (\d+) mAh, last full capacity (\d+) mAh/) {
+			$bat = $1;
+			my $lastfull = $3;
+			$mah_max += $lastfull;
+			$mah_cur += $lastfull * $level / 100;
+			$flevel = $mah_cur / $mah_max * 100;
 		}
 	}
 	return 1 if !$found;
