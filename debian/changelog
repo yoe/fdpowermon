@@ -1,3 +1,12 @@
+fdpowermon (1.17) UNRELEASED; urgency=medium
+
+  * Improve accuracy of combined battery level calculation by
+    incorporating battery capacity and not just percentage
+  * Hide the StatusIcon when no icon is selected, rather than leaving a
+    blank space.
+
+ -- Wouter Verhelst <wouter@debian.org>  Thu, 12 May 2016 14:10:02 +0200
+
 fdpowermon (1.16) unstable; urgency=medium
 
   * Follow the XDG spec a bit better: use XDG_CONFIG_HOME if specified
