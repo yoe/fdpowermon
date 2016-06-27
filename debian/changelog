@@ -1,4 +1,4 @@
-fdpowermon (1.17) UNRELEASED; urgency=medium
+fdpowermon (1.17) unstable; urgency=medium
 
   * Improve accuracy of combined battery level calculation by
     incorporating battery capacity and not just percentage
@@ -6,7 +6,7 @@ fdpowermon (1.17) UNRELEASED; urgency=medium
     blank space.
   * Improve parsing of theme files by skipping empty lines.
 
- -- Wouter Verhelst <wouter@debian.org>  Thu, 12 May 2016 14:10:02 +0200
+ -- Wouter Verhelst <wouter@debian.org>  Mon, 27 Jun 2016 12:55:40 +0200
 
 fdpowermon (1.16) unstable; urgency=medium
 
