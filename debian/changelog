@@ -4,6 +4,7 @@ fdpowermon (1.17) UNRELEASED; urgency=medium
     incorporating battery capacity and not just percentage
   * Hide the StatusIcon when no icon is selected, rather than leaving a
     blank space.
+  * Improve parsing of theme files by skipping empty lines.
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 12 May 2016 14:10:02 +0200
 
