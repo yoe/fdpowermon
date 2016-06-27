@@ -1,3 +1,10 @@
+fdpowermon (1.18) UNRELEASED; urgency=medium
+
+  * Pass the version number of the Notify library as a string rather
+    than as a number, so that it is not locale-sensitive anymore.
+
+ -- Wouter Verhelst <wouter@debian.org>  Mon, 27 Jun 2016 13:26:44 +0200
+
 fdpowermon (1.17) unstable; urgency=medium
 
   * Improve accuracy of combined battery level calculation by
