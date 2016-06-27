@@ -137,7 +137,7 @@ our $use_notify = 1;
 eval {
 	Glib::Object::Introspection->setup(
 			basename => "Notify",
-			version => 0.7,
+			version => '0.7',
 			package => "Fdpowermon::Notify",
 			);
 };
