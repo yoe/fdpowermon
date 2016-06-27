@@ -532,6 +532,9 @@ sub parse_themefile($) {
 		} elsif($line=~ /^\s*[#;]/) {
 			# comment in theme file
 			next;
+		} elsif($line=~/^\s*$/) {
+			# empty line, skip
+			next;
 		} else {
 			fdpowermon::theme::warning("unparseable line in configuration file: $line");
 		}
