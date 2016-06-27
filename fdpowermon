@@ -142,6 +142,7 @@ eval {
 			);
 };
 if($@) {
+	print "no notify because setup failed: $@\n";
 	$use_notify = 0;
 } else {
 	Fdpowermon::Notify->init();
