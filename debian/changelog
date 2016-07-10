@@ -2,6 +2,7 @@ fdpowermon (1.18) UNRELEASED; urgency=medium
 
   * Pass the version number of the Notify library as a string rather
     than as a number, so that it is not locale-sensitive anymore.
+  * Limit the number of digits past the comma to 2 in more places.
 
  -- Wouter Verhelst <wouter@debian.org>  Mon, 27 Jun 2016 13:26:44 +0200
 
