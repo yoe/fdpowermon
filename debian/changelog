@@ -4,6 +4,8 @@ fdpowermon (1.18) UNRELEASED; urgency=medium
     than as a number, so that it is not locale-sensitive anymore.
   * Limit the number of digits past the comma to 2 in more places.
   * Update Standards-Version to 3.9.8 (no applicable changes)
+  * theme.cfg, debian/fdpowermon-icons.install: update for new location of icon
+    directory in oxygen-icon-theme package
 
  -- Wouter Verhelst <wouter@debian.org>  Mon, 27 Jun 2016 13:26:44 +0200
 
