@@ -1,4 +1,4 @@
-fdpowermon (1.18) UNRELEASED; urgency=medium
+fdpowermon (1.18) unstable; urgency=medium
 
   * Pass the version number of the Notify library as a string rather
     than as a number, so that it is not locale-sensitive anymore.
