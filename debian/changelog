@@ -1,6 +1,10 @@
 fdpowermon (1.19) UNRELEASED; urgency=medium
 
+  [ Wouter Verhelst ]
   * debian/control: update git URL to point to salsa, not alioth.
+
+  [ Debian Janitor ]
+  * Bump debhelper from deprecated 7 to 12.
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 26 Jul 2018 13:04:16 +0200
 
