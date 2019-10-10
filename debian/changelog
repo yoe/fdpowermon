@@ -5,6 +5,7 @@ fdpowermon (1.19) UNRELEASED; urgency=medium
 
   [ Debian Janitor ]
   * Bump debhelper from deprecated 7 to 12.
+  * Change priority extra to priority optional.
 
  -- Wouter Verhelst <wouter@debian.org>  Thu, 26 Jul 2018 13:04:16 +0200
 

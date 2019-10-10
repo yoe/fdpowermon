@@ -1,6 +1,6 @@
 Source: fdpowermon
 Section: x11
-Priority: extra
+Priority: optional
 Maintainer: Wouter Verhelst <wouter@debian.org>
 Standards-Version: 3.9.8
 Build-Depends: debhelper-compat (= 12)
