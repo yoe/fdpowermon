@@ -422,6 +422,9 @@ sub checklevels {
 	open my $acpi, "acpi -bi |";
 	while ($acpi_output = <$acpi>) {
 		chomp $acpi_output;
+		if ($acpi_output =~ /rate information unavailable/) {
+			next;
+		}
 		if ($acpi_output =~ /^Battery (\d): ((Dis|Not )?[Cc]harging|Unknown|Full), ((\d)+)%(, ([\d:]*))?/) {
 			$title_text .= ($found ? "\n" : "") . $acpi_output;
 			$bat = $1;
