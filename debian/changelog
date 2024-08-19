@@ -1,3 +1,11 @@
+fdpowermon (1.21) UNRELEASED; urgency=medium
+
+  * theme.cfg: set "warning everything is going to go bad" discharging
+    moment at 5%, from 2%. This because systemd apparently shuts down
+    the system at 3%, so we never get that point otherwise.
+
+ -- Wouter Verhelst <wouter@debian.org>  Fri, 10 Jun 2022 10:36:09 +0200
+
 fdpowermon (1.20) unstable; urgency=medium
 
   * Handle a "Not charging" state. Closes: #1007702.
